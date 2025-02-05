@@ -9,7 +9,8 @@ def test_create_system_without_parent(client, db_session):
         "name": "New System",
         "description": "A new system"
     }
-    response = client.post("/create", json=payload)
+    # Updated endpoint to include '/system' prefix
+    response = client.post("/system/create", json=payload)
     assert response.status_code == status.HTTP_200_OK
     json_data = response.json()
     assert "system_id" in json_data
@@ -25,7 +26,7 @@ def test_create_system_missing_fields(client):
     payload = {
         "description": "Desc without name"
     }
-    response = client.post("/create", json=payload)
+    response = client.post("/system/create", json=payload)
     # FastAPI/Pydantic returns 422 Unprocessable Entity for validation errors
     assert response.status_code == 422
 
@@ -41,7 +42,7 @@ def test_create_system_with_parent(client, db_session):
         "description": "Child system description",
         "parent_id": parent.id
     }
-    response = client.post("/create", json=payload)
+    response = client.post("/system/create", json=payload)
     assert response.status_code == status.HTTP_200_OK
     json_data = response.json()
     child_id = json_data["system_id"]
