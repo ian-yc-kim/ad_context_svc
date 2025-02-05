@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from ad_context_svc.routers import system_create, system_update, system_delete, system_get
+from ad_context_svc.routers.system_descendant import router as system_descendant_router
 
 app = FastAPI(debug=True)
 
@@ -14,3 +15,6 @@ app.include_router(system_delete.router, prefix="/system")
 
 # Integrate the system_get router with the prefix '/system' so that the GET endpoint is accessible at '/system/get'
 app.include_router(system_get.router, prefix="/system")
+
+# Integrate the system_descendant router with the prefix '/system' so that the descendant endpoint is accessible at '/system/descendant'
+app.include_router(system_descendant_router, prefix="/system")
